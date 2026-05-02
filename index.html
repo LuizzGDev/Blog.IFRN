@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>blog | IFJC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ──────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+ 
+    /* ── Tokens ─────────────────────────────────────────── */
+    :root {
+      --bg:        #0a0a0a;
+      --bg2:       #111111;
+      --bg3:       #181818;
+      --border:    #1f1f1f;
+      --border2:   #2a2a2a;
+      --text:      #f0f0f0;
+      --text2:     #888;
+      --text3:     #444;
+      --accent:    #e2ff5d;
+      --accent-dk: #b8d400;
+      --danger:    #f09595;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius:    14px;
+      --radius-sm: 8px;
+    }
+ 
+    /* ── Base ────────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+ 
+    /* ── App wrapper ─────────────────────────────────────── */
+    .app {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+    }
+ 
+    /* ── Topbar ──────────────────────────────────────────── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 18px;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 32px;
+    }
+ 
+    .logo {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--text);
+    }
+ 
+    .logo .accent { color: var(--accent); }
+ 
+    /* ── Forms ───────────────────────────────────────────── */
+    .form-wrap {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 28px 32px;
+      max-width: 600px;
+      margin-bottom: 32px;
+    }
+ 
+    .form-title {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+    }
+ 
+    .field {
+      margin-bottom: 18px;
+    }
+ 
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 7px;
+    }
+ 
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      font-weight: 300;
+      border: 0.5px solid var(--border2);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color .2s;
+    }
+ 
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+ 
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+ 
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--text3);
+    }
+ 
+    /* ── Buttons ─────────────────────────────────────────── */
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+ 
+    .btn {
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font-body);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 0.5px solid var(--border2);
+      background: var(--bg3);
+      color: var(--text);
+      transition: all .2s;
+    }
+ 
+    .btn:hover { background: #222; }
+    .btn:active { transform: scale(.98); }
+ 
+    .btn-accent {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0a0a0a;
+      font-weight: 500;
+    }
+ 
+    .btn-accent:hover { background: var(--accent-dk); border-color: var(--accent-dk); }
+ 
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+    }
+ 
+    .btn-ghost:hover { color: var(--text); background: var(--bg3); }
+ 
+    /* ── Posts grid ──────────────────────────────────────── */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+ 
+    /* ── Post card ───────────────────────────────────────── */
+    .post-card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color .2s, transform .2s;
+    }
+ 
+    .post-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+    }
+ 
+    .card-img {
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      background-color: var(--bg3);
+      position: relative;
+    }
+ 
+    .card-body {
+      padding: 16px 18px 18px;
+    }
+ 
+    .card-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #0a0a0a;
+      background: var(--accent);
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+ 
+    .card-title {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 7px;
+      letter-spacing: -0.3px;
+    }
+ 
+    .card-excerpt {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+ 
+    .card-content {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+ 
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+    }
+ 
+    .card-author {
+      font-size: 11px;
+      color: var(--text3);
+    }
+ 
+    .card-date {
+      font-size: 11px;
+      color: var(--text3);
+    }
+ 
+    .actions {
+      display: flex;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 0.5px solid var(--border);
+    }
+ 
+    .btn-edit {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 400;
+      font-family: var(--font-body);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 0.5px solid var(--border2);
+      background: transparent;
+      color: var(--text2);
+      transition: all .2s;
+    }
+ 
+    .btn-edit:hover { color: var(--text); background: var(--bg3); }
+ 
+    .btn-del {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 400;
+      font-family: var(--font-body);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 0.5px solid #5a1a1a;
+      background: transparent;
+      color: var(--danger);
+      transition: all .2s;
+    }
+ 
+    .btn-del:hover { background: #2a0a0a; }
+ 
+    /* ── Loading & Empty ─────────────────────────────────── */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+ 
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text3);
+      font-size: 14px;
+    }
+ 
+    .empty-title {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text2);
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+ 
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .posts-grid { grid-template-columns: 1fr; }
+      .form-wrap { padding: 20px 16px 24px; }
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="app">
+ 
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="logo">blog<span class="accent">|</span>IFJC</div>
+    </header>
+ 
+    <!-- FORM -->
+    <div class="form-wrap">
+      <div class="form-title">Novo post</div>
+      <div class="field">
+        <label>URL da Imagem</label>
+        <input id="imagem" type="text" placeholder="https://exemplo.com/imagem.jpg">
+      </div>
+      <div class="field">
+        <label>Título</label>
+        <input id="titulo" type="text" placeholder="Título do post">
+      </div>
+      <div class="field">
+        <label>Descrição</label>
+        <input id="descricao" type="text" placeholder="Breve descrição">
+      </div>
+      <div class="field">
+        <label>Conteúdo</label>
+        <textarea id="conteudo" placeholder="Escreva o conteúdo do post..."></textarea>
+      </div>
+      <div class="field">
+        <label>Autor</label>
+        <input id="autor" type="text" placeholder="Nome do autor">
+      </div>
+      <div class="field">
+        <label>Data de Publicação</label>
+        <input id="data" type="date">
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-accent" onclick="SalvarPosts()">Publicar</button>
+        <button type="reset" class="btn btn-ghost">Cancelar</button>
+      </div>
+    </div>
+ 
+    <!-- POSTS -->
+    <div id="lista-posts" class="posts-grid"></div>
+ 
+  </div>
+ 
+  <script>
+function CriarPosts(){
+let container = document.getElementById("lista-posts");
+container.innerHTML = ""
+if (ListaPosts.length === 0) {
+  container.innerHTML = `
+    <div class="empty">
+      <div class="empty-title">Nenhum post ainda</div>
+      <p>Crie seu primeiro post usando o formulário acima</p>
+    </div>
+  `;
+  return;
+}
+ListaPosts.forEach(function(post, indice) {
+container.innerHTML += `
+                <div class="post-card">
+                    <div class="card-img" style="background-image: url('${post.imagem}')"></div>
+                    <div class="card-body">
+                        <span class="card-tag">Post</span>
+                        <div class="card-title">${post.titulo}</div>
+                        <div class="card-excerpt">${post.descricao}</div>
+                        <div class="card-content">${post.conteudo}</div>
+                        <div class="card-footer">
+                            <span class="card-author">${post.autor}</span>
+                            <span class="card-date">${post.data}</span>
+                        </div>
+                        <div class="actions">
+                            <button class="btn-edit" onclick="EditarPost(${indice})">Editar</button>
+                            <button class="btn-del" onclick="DeletarPost(${indice})">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+                `;  
+            });
+        }
+function SalvarPosts() {
+let imagem = document.getElementById("imagem").value;
+let titulo = document.getElementById("titulo").value;
+let descricao = document.getElementById("descricao").value;
+let conteudo = document.getElementById("conteudo").value;
+let autor = document.getElementById("autor").value;
+let data = document.getElementById("data").value;
+if (
+imagem.trim()    === "" ||
+titulo.trim()    === "" ||
+descricao.trim() === "" ||
+conteudo.trim()  === "" ||
+autor.trim()     === "" ||
+data             === "" 
+            ) {
+alert("Todos os campos são obrigatórios!");
+return;
+                }
+let btn = document.querySelector(".btn-accent");
+btn.classList.add("loading");
+btn.textContent = "Salvando...";
+setTimeout(function() {
+if (indiceEditando !== null) {
+ListaPosts[indiceEditando] = { imagem, titulo, descricao, conteudo, autor, data };
+indiceEditando = null;
+        } else {
+ListaPosts.push({ imagem, titulo, descricao, conteudo, autor, data });
+        }
+localStorage.setItem("posts", JSON.stringify(ListaPosts));
+document.getElementById("imagem").value = "";
+document.getElementById("titulo").value = "";
+document.getElementById("descricao").value = "";
+document.getElementById("conteudo").value = "";
+document.getElementById("autor").value = "";
+document.getElementById("data").value = "";
+CriarPosts();
+btn.classList.remove("loading");
+btn.textContent = "Publicar";
+document.getElementById("lista-posts").scrollIntoView({ behavior: "smooth" });
+}, 500);
+        }
+function DeletarPost(indice) {
+ListaPosts.splice(indice, 1);
+localStorage.setItem("posts", JSON.stringify(ListaPosts));
+CriarPosts();
+        }
+function EditarPost(indice) {
+let post = ListaPosts[indice];
+document.getElementById("imagem").value = post.imagem;
+document.getElementById("titulo").value = post.titulo;
+document.getElementById("descricao").value = post.descricao;
+document.getElementById("conteudo").value = post.conteudo;
+document.getElementById("autor").value = post.autor;
+document.getElementById("data").value = post.data;
+indiceEditando = indice;
+}
+let ListaPosts = JSON.parse(localStorage.getItem("posts")) || [];  
+let indiceEditando = null;
+CriarPosts();      
+console.log(ListaPosts);
+</script>
+</body>
+</html>
