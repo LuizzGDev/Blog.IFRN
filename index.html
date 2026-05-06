@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog.IFRN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <span class="logo" onclick="irParaLista()">Blog.IFRN</span>
+    <button class="nav-btn" onclick="irParaFormulario()">+ Novo post</button>
+</nav>
+
+<div id="tela-lista" class="tela ativa">
+    <div class="wrap">
+        <div class="hero">
+            <h1>Ideias que <em>importam.</em></h1>
+            <p>Publicações do Instituto Federal do Rio Grande do Norte</p>
+        </div>
+        <p class="section-label">Publicações</p>
+        <div class="posts-grid" id="lista-posts"></div>
+    </div>
+</div>
+
+<div id="tela-formulario" class="tela">
+    <div class="form-wrap">
+        <div class="form-header">
+            <h2 id="form-titulo-header">Novo post</h2>
+            <p>Preencha os campos abaixo para publicar</p>
+        </div>
+        <div class="form-card">
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text" id="titulo" placeholder="Título do post">
+            </div>
+            <div class="form-group">
+                <label>Descrição</label>
+                <input type="text" id="descricao" placeholder="Um resumo curto...">
+            </div>
+            <div class="form-group">
+                <label>Conteúdo</label>
+                <textarea id="conteudo" placeholder="Escreva o conteúdo completo aqui..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Autor</label>
+                <input type="text" id="autor" placeholder="Seu nome">
+            </div>
+            <div class="form-actions">
+                <button class="btn-ghost" onclick="irParaLista()">Cancelar</button>
+                <button class="btn" onclick="salvarPost()">Publicar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tela-detalhe" class="tela">
+    <div class="post-wrap">
+        <button class="post-back" onclick="irParaLista()">← Voltar</button>
+        <div id="detalhe-conteudo"></div>
+        <div class="comments-section">
+            <h3 class="comments-title" id="comments-titulo">Comentários</h3>
+            <div class="comment-form">
+                <input type="text" id="comentario-nome" placeholder="Seu nome">
+                <textarea id="comentario-texto" placeholder="Escreva um comentário..."></textarea>
+                <button class="btn" onclick="adicionarComentario()">Comentar</button>
+            </div>
+            <div id="lista-comentarios"></div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
